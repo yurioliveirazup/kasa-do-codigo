@@ -18,21 +18,10 @@ import javax.validation.constraints.Size
 class CadastraAutorController(val autorRepository: AutorRepository) {
 
     @PostMapping
-    fun cadastra(@RequestBody @Valid request: NovoAutorRequest): ResponseEntity<Any> {
+    fun cadastra(@RequestBody @Valid request: NovoAutorRequest) = request.paraAutor()
+                                                                         .also(autorRepository::save)
+                                                                         .let { ResponseEntity.ok().build<Any>() }
 
-        println(request)
-
-        val novoAutor = request.paraAutor()
-
-        autorRepository.save(novoAutor)
-
-        // converter a request para o modelo
-
-        // salvar o modelo
-
-        return ResponseEntity.ok().build()
-
-    }
 
 }
 
